@@ -7,6 +7,7 @@ import { Logger } from 'winston';
 
 const logger: Logger = winstonLogger(`${config.ELASTICSEARCH_URL}`, 'Authentication Server', Level.debug);
 const initialize = (): void => {
+  config.cloudinaryConfig();
   const app: Express = express();
   start(app);
   databaseConnection();

@@ -12,6 +12,7 @@ import { config } from '@authentication/config';
 import { createConnection } from '@authentication/queues/connection';
 import { appRoutes } from '@authentication/routes';
 import { Channel } from 'amqplib';
+import { createElasticsearchConnection } from '@authentication/elasticsearch';
 
 const SERVER_PORT = 4002;
 
@@ -34,13 +35,14 @@ const securityMiddlewares = (app: Application): void => {
   app.use(helmet());
   app.use(
     cors({
-      origin: config.API_GATEWAY_URL,
+      origin: `${config.API_GATEWAY_URL}`,
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
     })
   );
 
   app.use((req: Request, _res: Response, next: NextFunction) => {
+    logger.log('info', 'Authentication Service - Verify JWT Token...');
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ')[1];
       const payload: IAuthPayload = jwt.verify(token, `${config.JWT_TOKEN!}`) as IAuthPayload;
@@ -65,7 +67,7 @@ const startQueues = async (): Promise<void> => {
 };
 
 const startElasticSearch = (): void => {
-  createConnection();
+  createElasticsearchConnection();
 };
 
 const authErrorHandler = (app: Application): void => {

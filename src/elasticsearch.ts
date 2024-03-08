@@ -10,10 +10,12 @@ export const elasticsearchClient = new Client({
   node: config.ELASTICSEARCH_URL
 });
 
-export const createConnection = async (): Promise<void> => {
+export const createElasticsearchConnection = async (): Promise<void> => {
   let isConnected = false;
+
   while (!isConnected) {
     try {
+      logger.log('info', 'Authentication Service - Creating connection to ElasticSearch...');
       const health: ClusterHealthResponse = await elasticsearchClient.cluster.health({});
       logger.info(`Authentication Service - Connected to ElasticSearch is ${health.status}`);
       isConnected = true;

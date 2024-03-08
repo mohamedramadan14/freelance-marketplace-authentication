@@ -22,7 +22,7 @@ const passwordSchema: ObjectSchema = Joi.object().keys({
   })
 });
 
-const changePassword: ObjectSchema = Joi.object().keys({
+const changePasswordSchema: ObjectSchema = Joi.object().keys({
   currentPassword: Joi.string().min(5).max(12).required().messages({
     'string.base': 'Password must be a string',
     'string.min': 'Password must be at least 5 characters long',
@@ -35,4 +35,4 @@ const changePassword: ObjectSchema = Joi.object().keys({
   })
 });
 
-export { emailSchema, passwordSchema, changePassword };
+export { emailSchema, passwordSchema, changePasswordSchema };

@@ -60,7 +60,8 @@ const AuthModel: ModelDefined<IAuthDocument, AuthUserCreationAttributes> = seque
   {
     indexes: [
       { unique: true, fields: ['username'] },
-      { unique: true, fields: ['email'] }
+      { unique: true, fields: ['email'] },
+      { unique: true, fields: ['emailVerificationToken'] }
     ]
   }
 );
@@ -75,6 +76,10 @@ AuthModel.prototype.comparePassword = async function (password: string, hashedPa
   return await compare(password, hashedPassword);
 };
 
-AuthModel.sync({});
+AuthModel.prototype.hashPassword = async function (password: string) {
+  return await hash(password, SALT_Rounds);
+};
+
+process.env.NODE_ENV !== 'test' && AuthModel.sync({});
 
 export { AuthModel };

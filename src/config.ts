@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import cloudinary from 'cloudinary';
 
 dotenv.config({});
 
@@ -33,6 +34,14 @@ class Config {
     this.ELASTICSEARCH_APM_SERVER_URL = process.env.ELASTICSEARCH_APM_SERVER_URL || '';
     this.ELASTICSEARCH_APM_SECRET_TOKEN = process.env.ELASTICSEARCH_APM_SECRET_TOKEN || '';
     this.ENABLE_APM = process.env.ENABLE_APM === 'true' || false;
+  }
+
+  public cloudinaryConfig(): void {
+    cloudinary.v2.config({
+      cloud_name: 'dqlyor5ee',
+      api_key: '147454977495589',
+      api_secret: 'uqPvy9ipRNLOwXVLuA2ljetz5WM'
+    });
   }
 }
 
