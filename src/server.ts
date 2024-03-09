@@ -12,7 +12,7 @@ import { config } from '@authentication/config';
 import { createConnection } from '@authentication/queues/connection';
 import { appRoutes } from '@authentication/routes';
 import { Channel } from 'amqplib';
-import { createElasticsearchConnection } from '@authentication/elasticsearch';
+import { createElasticsearchConnection, createIndex } from '@authentication/elasticsearch';
 
 const SERVER_PORT = 4002;
 
@@ -68,6 +68,7 @@ const startQueues = async (): Promise<void> => {
 
 const startElasticSearch = (): void => {
   createElasticsearchConnection();
+  createIndex('gigs');
 };
 
 const authErrorHandler = (app: Application): void => {
